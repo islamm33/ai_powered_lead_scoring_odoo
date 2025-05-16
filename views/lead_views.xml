@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_crm_lead_ai_form" model="ir.ui.view">
+        <field name="name">crm.lead.ai.fields</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <!-- Existing custom fields -->
+            <xpath expr="//group[@name='opportunity_partner']//field[@name='user_company_ids']" position="after">
+                <field name="x_specialization" widget="radio"/>
+                <field name="x_through_recommendations" widget="boolean_toggle"/>
+            </xpath>
+
+            <!-- AI Analytics notebook page -->
+            <xpath expr="//notebook" position="inside">
+                <page string="AI Analytics" name="page_ai_analytics">
+                    <group>
+                        <button name="action_score_lead"
+                                type="object"
+                                class="btn btn-primary"
+                                string="Run Inference"
+                                title="Run AI scoring for this lead"
+                                icon="fa-cogs"/>
+                        <button name="export_leads_to_csv"
+                                type="object"
+                                class="btn btn-secondary"
+                                string="Export Leads CSV"
+                                title="Export leads data to CSV file"
+                                icon="fa-download"/>
+                    </group>
+
+                    <!-- AI Conversion Score Section -->
+                    <group string="Conversion Prediction">
+                        <field name="ai_score" widget="progressbar"/>
+                        <field name="last_ai_update"/>
+                    </group>
+
+                    <!-- Training Progress Section -->
+                    <group string="Model Training">
+                        <field name="training_progress" widget="progressbar"/>
+                        <field name="last_training_update"/>
+                        <button name="action_train_model"
+                                type="object"
+                                class="btn btn-primary"
+                                string="Retrain Model"
+                                title="Retrain with latest data"
+                                icon="fa-refresh"
+                                confirm="This will update the model. Continue?"
+                                style="margin-top: 10px;"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
